@@ -1,0 +1,237 @@
+Rubrica
+/**
+ * @author Filippo Picerno,4°A Informatica
+ *  @brief Testo : Considerando la struttura Anagrafica contenente i campi nome,cognome,numero di telefono e indirizzo email
+        scrivere un programma in C che gestisca una rubrica di massimo 10 elementi.Le strutture dati dovranno essere
+        memorizzate in un vettore.
+*/
+#include <iostream>
+#include <string>
+#define MAX 10
+using namespace std;
+
+/**
+ * @brief struttura Anagrafica contenente i campi nome,cognome, numero di telefono e indirizzo email.
+*/
+struct Anagrafica
+{
+char nome[20];
+char cognome[30];
+long int telefono;
+char email[30];
+};
+
+
+/**
+ * @brief Prototipi delle funzioni
+*/
+void menu();
+void InserisciContatti(Anagrafica contatti[]);
+void secondo_menu();
+void AggiungiContatti(Anagrafica contatti[]);
+void CancellaContatto(Anagrafica contatti[],int &Dim);
+void Stampa(Anagrafica contatti[]);
+void RicercaContatto(Anagrafica contatti[]);
+
+
+
+int main() {
+    Anagrafica contatti[MAX];/**< vettore di strutture che contiene la rubrica */
+    int Dim=MAX; /**< dimensione del vettore (variabile utilizzata per la funzione Cancella) */
+    int x=0; /**< variabile presa in input dall'utente utilizzata per selezionare le diverse funzioni nel menu */
+    menu(); /**< richiamo del primo menu del programma */
+    cin >> x;
+
+    if (x==1)
+    {
+        InserisciContatti(contatti);
+    }
+    else
+    {
+    return 0;
+    }
+    int y=0;
+    secondo_menu();
+    cin >> y;
+    if (y==1)
+    {
+        AggiungiContatti(contatti);
+    }
+    else
+    {
+        if (y==2)
+        {
+            CancellaContatto(contatti,Dim);
+            Stampa(contatti);
+        }
+        else
+        {
+            if (y==3)
+            {
+                RicercaContatto(contatti);
+            }
+            else
+                return 0;
+        }
+    }
+
+
+
+    return 0;
+}
+
+/**
+ * @brief ---------------Funzione menu---------------
+ * @details Nessun parametro in ingresso o uscita (void)
+ * Questo è il primo menu che si presenta all'utente dopo l'apertura del programma.
+ * Permette di inserire i contatti nella rubrica (che quindi è ancora vuota),permette
+ * anche l'uscita dal programma.
+*/
+void menu()
+{
+
+    cout << "----------MENU----------"<<endl;
+    cout << "1.Inserisci contatti."<<endl;
+    cout << "2.Esci"<<endl;
+    cout << "Scegli : ";
+
+
+}
+
+/**
+ * @brief Funzione InserisciContatti
+ * @details Nessun parametro in ingresso o uscita (void)
+ * Questa funzione permette di riempire la rubrica con massimo 10 contatti
+*/
+void InserisciContatti(Anagrafica contatti[])
+{
+    for (int i=0;i<MAX;i++)
+    {
+        cout << "Inserisci nome contatto n."<<i<<" : ";
+        cin >> contatti[i].nome;
+        cout << "Inserisci cognome contatto : ";
+        cin >> contatti[i].cognome;
+        cout << "Inserisci numero di telefono del contatto : ";
+        cin >> contatti[i].telefono;
+        cout << "Inserisci indirizzo email del contatto : ";
+        cin >> contatti[i].email;
+    }
+}
+
+/**
+ * @brief Funzione secondo_menu
+ * @details Nessun parametro in ingresso o uscita (void)
+ * Questo è il secondo menu che si presenta all'utente,appare
+ * dopo aver riempito la rubrica e permette di richiamare
+ * numerose funzioni tra cui AggiungiContatti,CancellaContatto e
+ * RicercaContatto.Anche questo menu da all'utente la possibilità di
+ * chiudere il programma.
+*/
+void secondo_menu()
+{
+    cout << "----------MENU----------"<<endl;
+    cout << "1.Aggiungi contatti."<<endl;
+    cout << "2.Cancella contatto."<<endl;
+    cout << "3.Ricerca contatto."<<endl;
+    cout << "4.Esci."<<endl;
+    cout << "Scegli : ";
+}
+
+/**
+ * @brief Funzione AggiungiContatti
+ * @param[in] Anagrafica contatti[] , cioè il
+ * vettore in cui viene memorizzata la rubrica.
+ * @param[out] Nessun parametro in uscita.
+ * @details Questa funzione permette all'utente di aggiungere uno o
+ * più contatti alla sua rubrica.
+*/
+void AggiungiContatti(Anagrafica contatti[])
+{
+    int k; //numero di contatti da aggiungere
+    cout << "Quanti contatti vuoi aggiungere? ";
+    cin >> k;
+    for (int s=0;s<k;s++)
+    {
+        cout << "Inserisci nome contatto n."<<MAX+s<<" : ";
+        cin >> contatti[MAX+1].nome;
+        cout << "Inserisci cognome contatto : ";
+        cin >> contatti[MAX+1].cognome;
+        cout << "Inserisci numero di telefono del contatto : ";
+        cin >> contatti[MAX+1].telefono;
+        cout << "Inserisci indirizzo email del contatto : ";
+        cin >> contatti[MAX+1].email;
+    }
+}
+
+/**
+ * @brief Funzione CancellaContatto
+ * @param[in] Anagrafica contatti[] , cioè il
+ * vettore in cui viene memorizzata la rubrica e Dim,cioè
+ * la dimensione del vettore.
+ * @param[out] Nessun parametro in uscita.
+ * @details Questa funzione permette all'utente di cancellare un
+ * contatto, la cancellazione avviene mediante l'indice
+ * del vettore.
+*/
+void CancellaContatto(Anagrafica contatti[],int &Dim)
+{
+    int contatto_da_eliminare=0;
+    bool trovato = false;
+    cout << "Inserisci il numero del contatto da cancellare : ";
+    cin >> contatto_da_eliminare;
+    for (int i=0;i<MAX;i++)
+    {
+        if (i==contatto_da_eliminare)
+        {
+            trovato=true;
+        }
+        if (trovato==true)
+        {
+            contatti[i]=contatti[i+1];
+        }
+    }
+    Dim--;
+}
+
+/**
+ * @brief Funzione Stampa
+ * @param[in] Anagrafica contatti[],
+ * cioè il vettore in cui viene memorizzata la rubrica.
+ * @param[out] Nessun parametro in uscita.
+ * @details Questa funzione stampa a video i contatti.
+*/
+void Stampa(Anagrafica contatti[])
+{
+    for (int i=0;i<MAX;i++)
+    {
+        cout << contatti[i].nome<<endl;
+        cout << contatti[i].cognome<<endl;
+        cout << contatti[i].telefono<<endl;
+        cout << contatti[i].email<<endl;
+    }
+}
+
+/**
+ * @brief Funzione RicercaContatto
+ * @param[in] Anagrafica contatti[],
+ * cioè il vettore in cui viene memorizzata la rubrica.
+ * @param[out] Nessun parametro in uscita.
+ * @details Questa funzione permette all'utente di ricercare un
+ * contatto nella rubrica.
+*/
+void RicercaContatto(Anagrafica contatti[])
+{
+    cout << "Inserisci cognome del contatto da cercare : ";
+    cin >> contatti[MAX].cognome;
+    for (int i = 0;i<MAX;i++)
+    {
+        if (strcmp(contatti[MAX].cognome,contatti[i].cognome)==0)
+        {
+            cout << " Nome : "<<contatti[i].nome<<endl;
+            cout << " cognome : "<<contatti[i].cognome<<endl;
+            cout << " numero di telefono : "<<contatti[i].telefono<<endl;
+            cout << " Indirizzo email : "<<contatti[i].email<<endl;
+            break;
+        }
+    }
+}
